@@ -13,7 +13,7 @@ public class Game extends Canvas implements Runnable{
     @Serial
     private static final long serialVersionUID = -7969492678833627878L;
 
-    public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
+    public static int WIDTH, HEIGHT;
 
     private Thread thread;
     private boolean running = false;
@@ -76,6 +76,9 @@ public class Game extends Canvas implements Runnable{
     }
 
     private void render() {
+        WIDTH = getWidth();
+        HEIGHT = getHeight();
+
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
             this.createBufferStrategy(3);
