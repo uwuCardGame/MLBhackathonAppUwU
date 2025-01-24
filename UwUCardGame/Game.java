@@ -14,6 +14,7 @@ public class Game extends Canvas implements Runnable{
     private static final long serialVersionUID = -7969492678833627878L;
 
     public static int WIDTH, HEIGHT;
+    public static int WIDTH_RATIO = 16, HEIGHT_RATIO = 9;
 
     private Thread thread;
     private boolean running = false;
@@ -22,7 +23,7 @@ public class Game extends Canvas implements Runnable{
     private Random r;
 
     public Game(){
-        new Window(WIDTH, HEIGHT, "Let's build a game", this);
+        new Window(WIDTH, HEIGHT, "UwUCardGame", this);
     }
 
     public synchronized void start(){
