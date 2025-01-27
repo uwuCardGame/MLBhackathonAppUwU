@@ -34,11 +34,11 @@ public class MainUI implements ComponentListener, EventListener{
         windowPane.setLayout(new BoxLayout(windowPane, BoxLayout.X_AXIS));
     
         // add the selection side to the left
-        selectionSide = new SelectionSide();
+        selectionSide = new SelectionSide(this.window.getSize());
         windowPane.add(selectionSide);
 
         // add the main content side to the right
-        mainContentSide = new MainContentSide();
+        mainContentSide = new MainContentSide(this.window.getSize());
         windowPane.add(mainContentSide);
 
         // add event listener
@@ -50,6 +50,7 @@ public class MainUI implements ComponentListener, EventListener{
     public void componentResized(ComponentEvent E){
         this.selectionSide.callResize(this.window.getSize());
         this.mainContentSide.callResize(this.window.getSize());
+        //System.out.println("window size: " + (String)(this.window.getSize().width));
     }
 
     @Override
@@ -70,27 +71,29 @@ public class MainUI implements ComponentListener, EventListener{
 
     // SelectionSide, the part which user can choose the main content options
     private class SelectionSide extends JPanel implements WindowPanel{
-        public SelectionSide(){
+        public SelectionSide(Dimension currentWindowDimension){
+            this.setMaximumSize(new Dimension((int)(currentWindowDimension.width * 0.3), currentWindowDimension.height));
             this.setBackground(new Color(255, 255, 255));
         }
 
         @Override
         public void callResize(Dimension currentWindowDimension){
-            this.setSize(new Dimension((int)(currentWindowDimension.width * 0.3), currentWindowDimension.height));
-            this.setBackground(new Color(new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256)));
+            this.setMaximumSize(new Dimension((int)(currentWindowDimension.width * 0.3), currentWindowDimension.height));
+            this.setBackground(new Color(50, 50, 50));
         }
     }
 
 
     // MainContentSide, the part that display the main content
     private class MainContentSide extends JPanel implements WindowPanel{
-        public MainContentSide(){
+        public MainContentSide(Dimension currentWindowDimension){
+            this.setMaximumSize(new Dimension(currentWindowDimension.width, currentWindowDimension.height));
             this.setBackground(new Color(30, 66, 100));
         }
 
         @Override
         public void callResize(Dimension currentWindowDimension){
-            this.setSize(new Dimension((int)(currentWindowDimension.width * 0.7), currentWindowDimension.height));
+            this.setMaximumSize(new Dimension(currentWindowDimension.width, currentWindowDimension.height));
             this.setBackground(new Color(new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256)));
         }
     }
