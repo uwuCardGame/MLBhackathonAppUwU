@@ -69,15 +69,24 @@ public class MainUI implements ComponentListener, EventListener{
 
     // SelectionSide, the part which user can choose the main content options
     private class SelectionSide extends JPanel implements WindowPanel{
+        private JPanel userPanel;
+        private JPanel buttonsPanel;
+        private JPanel newsPanel;
+
         public SelectionSide(Dimension currentWindowDimension){
+            // initialize size and color
             this.setSize(new Dimension((int)(currentWindowDimension.width * 0.3), currentWindowDimension.height));
             this.setBackground(new Color(255, 255, 255));
+
+            // set the container layout to box layout
+            this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+            // creates the three panels inside
         }
 
         @Override
         public void callResize(Dimension currentWindowDimension){
             this.setSize(new Dimension((int)(currentWindowDimension.width * 0.3), currentWindowDimension.height));
-            this.setBackground(new Color(50, 50, 50));
         }
     }
 
@@ -86,19 +95,18 @@ public class MainUI implements ComponentListener, EventListener{
     private class MainContentSide extends JPanel implements WindowPanel{
         public MainContentSide(Dimension currentWindowDimension){
             this.setSize(new Dimension(currentWindowDimension.width, currentWindowDimension.height));
-            this.setBackground(new Color(30, 66, 100));
+            this.setBackground(new Color(0, 45, 114));
         }
 
         @Override
         public void callResize(Dimension currentWindowDimension){
             this.setSize(new Dimension(currentWindowDimension.width, currentWindowDimension.height));
-            this.setBackground(new Color(new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256)));
         }
     }
 
     // interface for left and right panel
     private interface WindowPanel{
-        public void callResize(Dimension currentDimension);
+        public void callResize(Dimension currentDimension); // call when the window is resized
     }
 
     // main function
