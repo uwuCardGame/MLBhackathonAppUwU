@@ -25,6 +25,7 @@ public class MainUI implements ComponentListener, EventListener{
         window.setSize(minimumWindowSize); // WHY ARE YOU NOT MINIMUM SIZE??
         window.setMinimumSize(minimumWindowSize);
         window.setVisible(true);
+        window.setLocationRelativeTo(null);
 
         // set the operation perform when user close the window
         window.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -109,8 +110,4 @@ public class MainUI implements ComponentListener, EventListener{
         public void callResize(Dimension currentDimension); // call when the window is resized
     }
 
-    // main function
-    public static void main(String[] args){
-        MainUI mainUI = new MainUI();
-    }
 }
