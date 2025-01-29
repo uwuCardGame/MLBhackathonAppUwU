@@ -4,7 +4,7 @@ import java.util.*;
 import javax.swing.*;
 import static javax.swing.WindowConstants.*;
 
-public class MainUI implements ComponentListener, EventListener{
+public class MainUI extends JFrame implements ComponentListener, EventListener{
 
     // objects
     private JFrame window;
@@ -14,7 +14,7 @@ public class MainUI implements ComponentListener, EventListener{
     // constructor
     public MainUI(){
         // create a window
-        window = new JFrame("UwU Card Game");
+        window = this;
         // content pane of window
         Container windowPane = window.getContentPane();
 
@@ -70,8 +70,8 @@ public class MainUI implements ComponentListener, EventListener{
 
     // SelectionSide, the part which user can choose the main content options
     private class SelectionSide extends JPanel implements WindowPanel{
-        private JPanel userPanel;
-        private JPanel buttonsPanel;
+        private UserPanel userPanel;
+        private ButtonsPanel buttonsPanel;
         private JPanel newsPanel;
 
         public SelectionSide(Dimension currentWindowDimension){
@@ -83,11 +83,39 @@ public class MainUI implements ComponentListener, EventListener{
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
             // creates the three panels inside
+            userPanel = new UserPanel();
+            buttonsPanel = new ButtonsPanel();
+            newsPanel = new NewsPanel();
+
+            this.add(userPanel);
+            this.add(buttonsPanel);
+            this.add(newsPanel);
         }
 
         @Override
         public void callResize(Dimension currentWindowDimension){
             this.setSize(new Dimension((int)(currentWindowDimension.width * 0.3), currentWindowDimension.height));
+        }
+
+        // userPanel, the thingy that display usernmae and user profile picture
+        private class UserPanel extends JPanel{
+            public UserPanel(){
+                this.setBackground(new Color(191, 13, 62));
+            }
+        }
+
+        // buttonsPanel, the thingy that display all the selctable secton
+        private class ButtonsPanel extends JPanel{
+            public ButtonsPanel(){
+
+            }
+        }
+
+        // newsPanel, the thingy that display news upon selection
+        private class NewsPanel extends JPanel{
+            public NewsPanel (){
+
+            }
         }
     }
 
@@ -109,5 +137,4 @@ public class MainUI implements ComponentListener, EventListener{
     private interface WindowPanel{
         public void callResize(Dimension currentDimension); // call when the window is resized
     }
-
 }
