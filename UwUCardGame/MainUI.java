@@ -69,10 +69,10 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
 
 
     // SelectionSide, the part which user can choose the main content options
-    private class SelectionSide extends JPanel implements WindowPanel{
+    private class SelectionSide extends JPanel implements WindowPanel, ActionListener{
         private UserPanel userPanel;
         private ButtonsPanel buttonsPanel;
-        private JPanel newsPanel;
+        private NewsPanel newsPanel;
 
         public SelectionSide(Dimension currentWindowDimension){
             // initialize size and color
@@ -89,12 +89,32 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
 
             this.add(userPanel);
             this.add(buttonsPanel);
+            buttonsPanel.uwuButton.addActionListener(this);
+            buttonsPanel.owoButton.addActionListener(this);
             this.add(newsPanel);
+
+
         }
 
         @Override
         public void callResize(Dimension currentWindowDimension){
             this.setSize(new Dimension((int)(currentWindowDimension.width * 0.3), currentWindowDimension.height));
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getActionCommand().equals("it is uwu time")){
+                mainContentSide.remove(mainContentSide.mainContent);
+                mainContentSide.mainContent = new UwU();
+                mainContentSide.add(mainContentSide.mainContent);
+                window.revalidate();
+                window.repaint();
+                System.out.print("uwu?");
+            }else if(e.getActionCommand().equals("it is owo time")){
+                System.out.print("owo?");
+            }else{
+                System.out.print("uwaaaaa???");
+            }
         }
 
         // userPanel, the thingy that display usernmae and user profile picture
@@ -106,8 +126,19 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
 
         // buttonsPanel, the thingy that display all the selctable secton
         private class ButtonsPanel extends JPanel{
+            public JButton uwuButton;  // Made public so outer class can access
+            public JButton owoButton;
             public ButtonsPanel(){
+                this.setBackground(new Color(224, 249, 249));
+                // buttons
+                uwuButton = new JButton("uwu time");
+                owoButton = new JButton("owo time");
 
+                uwuButton.setActionCommand("it is uwu time");
+                owoButton.setActionCommand("it is owo time");
+
+                this.add(uwuButton);
+                this.add(owoButton);
             }
         }
 
@@ -121,15 +152,21 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
 
 
     // MainContentSide, the part that display the main content
-    private class MainContentSide extends JPanel implements WindowPanel{
+    public class MainContentSide extends JPanel implements WindowPanel{
+        JPanel mainContent;
+
         public MainContentSide(Dimension currentWindowDimension){
-            this.setSize(new Dimension(currentWindowDimension.width, currentWindowDimension.height));
-            this.setBackground(new Color(0, 45, 114));
+            mainContent = new JPanel();
+            this.add(mainContent);
+            mainContent.setSize(currentWindowDimension);
+            mainContent.setBackground(new Color(0, 45, 114));
+            this.setBackground(new Color(0, 0, 0));
         }
 
         @Override
         public void callResize(Dimension currentWindowDimension){
-            this.setSize(new Dimension(currentWindowDimension.width, currentWindowDimension.height));
+            this.setSize(currentWindowDimension);
+            mainContent.setSize(currentWindowDimension);
         }
     }
 
