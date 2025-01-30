@@ -89,19 +89,11 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
 
             this.add(userPanel);
             this.add(buttonsPanel);
+            buttonsPanel.uwuButton.addActionListener(this);
+            buttonsPanel.owoButton.addActionListener(this);
             this.add(newsPanel);
 
-            // buttons
-            JButton uwuButton = new JButton("uwu time");
-            JButton owoButton = new JButton("owo time");
 
-            uwuButton.setActionCommand("it is uwu time");
-            owoButton.setActionCommand("it is owo time");
-
-            this.add(uwuButton);
-            this.add(owoButton);
-            uwuButton.addActionListener(this);
-            owoButton.addActionListener(this);
         }
 
         @Override
@@ -134,8 +126,19 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
 
         // buttonsPanel, the thingy that display all the selctable secton
         private class ButtonsPanel extends JPanel{
+            public JButton uwuButton;  // Made public so outer class can access
+            public JButton owoButton;
             public ButtonsPanel(){
                 this.setBackground(new Color(224, 249, 249));
+                // buttons
+                uwuButton = new JButton("uwu time");
+                owoButton = new JButton("owo time");
+
+                uwuButton.setActionCommand("it is uwu time");
+                owoButton.setActionCommand("it is owo time");
+
+                this.add(uwuButton);
+                this.add(owoButton);
             }
         }
 
