@@ -113,7 +113,8 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
         public void actionPerformed(ActionEvent e) {
             if (e.getActionCommand().equals("it is uwu time")){
                 mainContentSide.remove(mainContentSide.mainContent);
-                mainContentSide.add(new UwU());
+                mainContentSide.mainContent = new UwU();
+                mainContentSide.add(mainContentSide.mainContent);
                 window.revalidate();
                 window.repaint();
                 System.out.print("uwu?");
@@ -156,6 +157,7 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
             this.add(mainContent);
             mainContent.setSize(currentWindowDimension);
             mainContent.setBackground(new Color(0, 45, 114));
+            this.setBackground(new Color(0, 0, 0));
         }
 
         @Override
