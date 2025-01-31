@@ -75,14 +75,14 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
 
 
     // SelectionSide, the part which user can choose the main content options
-    private class SelectionSide extends JPanel implements WindowPanel, ActionListener{
+    private class SelectionSide extends JPanel implements WindowPanel{
         private UserPanel userPanel;
         private ButtonsPanel buttonsPanel;
         private NewsPanel newsPanel;
 
         public SelectionSide(Dimension currentWindowDimension){
             // initialize size and color
-            this.setSize(new Dimension((int)(currentWindowDimension.width * 0.3), currentWindowDimension.height));
+            this.setPreferredSize(new Dimension((int)(currentWindowDimension.width * 0.3), currentWindowDimension.height));
             this.setBackground(new Color(255, 255, 255));
 
             // set the container layout to box layout
@@ -95,30 +95,14 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
 
             this.add(userPanel);
             this.add(buttonsPanel);
-            buttonsPanel.uwuButton.addActionListener(this);
-            buttonsPanel.owoButton.addActionListener(this);
             this.add(newsPanel);
         }
 
         @Override
         public void callResize(Dimension currentWindowDimension){
-            this.setSize(new Dimension((int)(currentWindowDimension.width * 0.3), currentWindowDimension.height));
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getActionCommand().equals("it is uwu time")){
-                mainContentSide.remove(mainContentSide.mainContent);
-                mainContentSide.mainContent = new UwU();
-                mainContentSide.add(mainContentSide.mainContent);
-                window.revalidate();
-                window.repaint();
-                System.out.print("uwu?");
-            }else if(e.getActionCommand().equals("it is owo time")){
-                System.out.print("owo?");
-            }else{
-                System.out.print("uwaaaaa???");
-            }
+            this.setPreferredSize(new Dimension((int)(currentWindowDimension.width * 0.3), currentWindowDimension.height));
+            this.revalidate();
+            this.repaint();
         }
 
         // userPanel, the thingy that display usernmae and user profile picture
@@ -129,20 +113,75 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
         }
 
         // buttonsPanel, the thingy that display all the selctable secton
-        private class ButtonsPanel extends JPanel{
-            public JButton uwuButton;  // Made public so outer class can access
-            public JButton owoButton;
+        private class ButtonsPanel extends JPanel implements ActionListener{
+            private JButton socialButton;  // Made public so outer class can access
+            private JButton collectionButton;  // this one can keep private since it is a nested class, and I moved the action listener to here uwu
+            private JButton matchButton;
+            private JButton shopButton;
+
+            // constant for string
+            final String SOCIALACTION = "SOCIAL";
+            final String COLLECTIONACTION = "COLLECTION";
+            final String MATCHACTION = "MATCH";
+            final String SHOPACTION = "SHOP";
+
+            String CURRENTACTION = SOCIALACTION;
+
             public ButtonsPanel(){
+                // customize
                 this.setBackground(new Color(224, 249, 249));
+
+                // set BoxLayout and arrange from top to bottom
+                this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
                 // buttons
-                uwuButton = new JButton("uwu time");
-                owoButton = new JButton("owo time");
+                socialButton = new JButton("Social");
+                collectionButton = new JButton("Collection");
+                matchButton = new JButton("Matches");
+                shopButton = new JButton("Shop");
 
-                uwuButton.setActionCommand("it is uwu time");
-                owoButton.setActionCommand("it is owo time");
+                socialButton.setActionCommand(SOCIALACTION);
+                collectionButton.setActionCommand(COLLECTIONACTION);
+                matchButton.setActionCommand(MATCHACTION);
+                shopButton.setActionCommand(SHOPACTION);
+                
+                socialButton.addActionListener(this);
+                collectionButton.addActionListener(this);
+                matchButton.addActionListener(this);
+                shopButton.addActionListener(this);
 
-                this.add(uwuButton);
-                this.add(owoButton);
+                this.add(socialButton);
+                this.add(collectionButton);
+                this.add(matchButton);
+                this.add(shopButton);
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // check if the redraw is needed (avoid reloading the same page)
+                if (!(e.getActionCommand().equals(CURRENTACTION))){
+                    // remove the mainContent JPanel
+                    mainContentSide.remove(mainContentSide.mainContent);
+                    // set the CURRENTACTION to actionCommand
+                    CURRENTACTION = e.getActionCommand();
+
+                    // create and assign the new JPanel
+                    if (e.getActionCommand().equals(SOCIALACTION)){
+                        mainContentSide.mainContent = new Social();
+                    }else if(e.getActionCommand().equals(COLLECTIONACTION)){
+                        mainContentSide.mainContent = new Collection();
+                    }else if(e.getActionCommand().equals(MATCHACTION)){
+                        mainContentSide.mainContent = new Match();
+                    }else if(e.getActionCommand().equals(SHOPACTION)){
+                        mainContentSide.mainContent = new Shop();
+                    }
+
+                    // add the JPanel into the mainContentSide
+                    mainContentSide.add(mainContentSide.mainContent);
+                }
+
+                mainContentSide.revalidate();
+                mainContentSide.repaint();
             }
         }
 
@@ -156,16 +195,17 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
 
 
     // MainContentSide, the part that display the main content
-    public class MainContentSide extends JPanel implements WindowPanel{
+    private class MainContentSide extends JPanel implements WindowPanel{
         JPanel mainContent;
 
         public MainContentSide(Dimension currentWindowDimension){
+            this.setPreferredSize(new Dimension((int)(currentWindowDimension.width * 0.7), currentWindowDimension.height));
             this.setBackground(new Color(0, 0, 0));
-            this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+            this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // setting a layout for JPanel remove the 5px border
 
             mainContent = new JPanel();
             this.add(mainContent);
-            mainContent.setSize(currentWindowDimension);
+            mainContent.setPreferredSize(new Dimension((int)(currentWindowDimension.width * 0.7), currentWindowDimension.height));
             mainContent.setBackground(new Color(0, 45, 114));
         }
 
@@ -173,6 +213,8 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
         public void callResize(Dimension currentWindowDimension){
             this.setPreferredSize(new Dimension((int)(currentWindowDimension.width * 0.7), currentWindowDimension.height));
             mainContent.setPreferredSize(new Dimension((int)(currentWindowDimension.width * 0.7), currentWindowDimension.height));
+            this.revalidate();
+            this.repaint();
         }
     }
 
