@@ -1,5 +1,5 @@
 import java.awt.Color;
-import java.awt.Label;
+import java.awt.Dimension;
 import javax.swing.JPanel;
 
 public class UwU extends JPanel{
@@ -14,6 +14,7 @@ public class UwU extends JPanel{
     public class Header extends JPanel{
         public Header(){
             this.setBackground(new Color(165, 165, 165));
+            this.setPreferredSize(new Dimension(100, 200));
         }
     }
     public class Display extends JPanel{

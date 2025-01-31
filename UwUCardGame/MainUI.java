@@ -32,6 +32,7 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
 
         // customize window
         windowPane.setBackground(new Color(4, 30, 66)); // I think it is because JFrame extends from Frame extends from Window, that's why you need getContentPane() to get its Container???
+        windowPane.setLayout(new BoxLayout(windowPane, BoxLayout.X_AXIS));
     
         // add the selection side to the left
         selectionSide = new SelectionSide(this.window.getSize());
@@ -43,6 +44,9 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
 
         // add event listener
         window.addComponentListener(this); // "this" because MainUI implements the listener and override the method
+    
+        // repaint in case of any sub JPanel changes
+        this.componentResized(null);
     }
 
     // event listener
@@ -50,6 +54,8 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
     public void componentResized(ComponentEvent E){
         this.selectionSide.callResize(this.window.getSize());
         this.mainContentSide.callResize(this.window.getSize());
+        this.revalidate();
+        this.repaint();
     }
 
     @Override
@@ -92,8 +98,6 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
             buttonsPanel.uwuButton.addActionListener(this);
             buttonsPanel.owoButton.addActionListener(this);
             this.add(newsPanel);
-
-
         }
 
         @Override
@@ -156,17 +160,19 @@ public class MainUI extends JFrame implements ComponentListener, EventListener{
         JPanel mainContent;
 
         public MainContentSide(Dimension currentWindowDimension){
+            this.setBackground(new Color(0, 0, 0));
+            this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
             mainContent = new JPanel();
             this.add(mainContent);
             mainContent.setSize(currentWindowDimension);
             mainContent.setBackground(new Color(0, 45, 114));
-            this.setBackground(new Color(0, 0, 0));
         }
 
         @Override
         public void callResize(Dimension currentWindowDimension){
-            this.setSize(currentWindowDimension);
-            mainContent.setSize(currentWindowDimension);
+            this.setPreferredSize(new Dimension((int)(currentWindowDimension.width * 0.7), currentWindowDimension.height));
+            mainContent.setPreferredSize(new Dimension((int)(currentWindowDimension.width * 0.7), currentWindowDimension.height));
         }
     }
 
